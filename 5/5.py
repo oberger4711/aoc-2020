@@ -1,4 +1,4 @@
-#!/usr/bin python3
+#!/usr/bin/env python3
 
 lines = [l.rstrip("\n") for l in open("input.txt")]
 
