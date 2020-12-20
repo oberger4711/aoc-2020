@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import math
-import re
 
 # Idea:
 # * Use a map to resolve (flipped) interfaces to tile
@@ -109,7 +108,6 @@ for inp_tile in inp.split("\n\n"):
     for k, v in tfs_to_add.items():
         if v not in tfs.values():
             tfs[k] = v
-        #else: print("Symmetry saved time!")
 
     # Id lookup
     tiles[id] = tfs
@@ -118,11 +116,9 @@ for inp_tile in inp.split("\n\n"):
         for direction, iface in ifaces.items():
             if (direction, iface) not in interfaces: interfaces[(direction, iface)] = []
             interfaces[(direction, iface)] += [(id, tf, ifaces)]
-            #print("{} = {}, {}, {}".format(iface, id, tf, direction))
 
     # For part 2
     image_flip0_rot0 = [l[1:-1] for l in lines[2:-1]]
-    #image_flip0_rot0 = [l for l in lines[1:]]
     image_flipx_rot0 = flip_image_x(image_flip0_rot0)
     image_flipy_rot0 = flip_image_y(image_flip0_rot0)
     images_to_add = {
@@ -145,15 +141,6 @@ for inp_tile in inp.split("\n\n"):
     for tf, img in images_to_add.items():
         images[(id, tf)] = img
 
-#print(tiles["2311"]["flipx_rot0"])
-#print(interfaces[("right", ".#..#####.")])
-#print(interfaces[("left", ".#..#####.")])
-
-#print(tiles["3079"]["flip0_rot0"])
-#print(interfaces[("left", "#..##.#...")])
-
-#print(tiles["2729"]["flip0_rot0"])
-
 # Recursive backtracking algorithm similar as for e. g. n queens problem.
 # Start at top left. We only have to check if interfaces at left and top match for the next tile.
 def find_solution_(y, x, side_len, grid, used_tile_ids, depth):
@@ -174,11 +161,9 @@ def find_solution_(y, x, side_len, grid, used_tile_ids, depth):
         if required_iface_top not in interfaces:
             return None # Dead end!
         options_top = interfaces[required_iface_top]
-        #print(options_top)
         if options is None:
             options = [o for o in options_top if o[0] not in used_tile_ids]
         else:
-            #print("{} x {}".format(len(options), len(options_top)))
             # Options is intersection set of options in top and left iface.
             options = [o for o in options if o in options_top] # Used id already checked.
     # Further filtering of options if not in last line (does not save time really...)
@@ -189,11 +174,8 @@ def find_solution_(y, x, side_len, grid, used_tile_ids, depth):
         x_next = 0
         y_next = y + 1
     else: y_next = y
-    #print("Options:")
-    #print(options)
     max_depth = depth
     for o in options:
-        #print(o)
         grid[y][x] = o
         used_tile_ids.add(o[0])
         if y == x == side_len - 1:
@@ -203,7 +185,6 @@ def find_solution_(y, x, side_len, grid, used_tile_ids, depth):
         max_depth = max(max_depth, option_max_depth)
         used_tile_ids.remove(o[0]) # Undo change to used_tile_ids for next iterations and recursions.
         if grid_res is not None:
-            #print("SDFKJLKASDJLKSAJD")
             return grid_res, max_depth
     # Reset changes to grid reference for previous recursion.
     grid[y][x] = None
@@ -226,11 +207,10 @@ def find_solution():
 
 def print_grid(grid):
     for row in grid:
-        #ids = [t[0] for t in row if t is not None]
-        #print(("{} ({})")*len(ids)).format(*ids))
         l = ""
         for c in row:
-            l += "{} ({})  ".format(c[0], c[1])
+            #l += "{} ({})  ".format(c[0], c[1])
+            l += "{} ".format(c[0])
         print(l)
 
 def part1():
@@ -307,17 +287,6 @@ def part2():
     mark_sea_monster(grid_image)
     print("\n".join(grid_image))
     return sum(sum(1 for c in l if c == "#") for l in grid_image)
-
-    #new_line = len(grid_image[0]) - len("                  # ")
-    #regex = re.compile("([\.#]{18}#[\.#].{" + str(new_line) + "}" +
-    #        "#[\.#]{4}##[\.#]{4}##[\.#]{4}###.{" + str(new_line) + "}" +
-    #        "[\.#]#[\.#]{2}#[\.#]{2}#[\.#]{2}#[\.#]{2}#[\.#]{2}#[\.#]{3})", re.DOTALL)
-    #regex = re.compile("([\.#]{18}#[\.#].{" + str(new_line) + "}" +
-    #        "#[\.#]{4}##[\.#]{4}##[\.#]{4}###.{" + str(new_line) + "})"
-    #        , re.DOTALL)
-    #        #"#[\.#]{4})")
-    #for m in regex.finditer(grid_image_in_one_string):
-    #    print(m)
 
 print("Part 1: {}".format(part1()))
 print("Part 2: {}".format(part2()))
