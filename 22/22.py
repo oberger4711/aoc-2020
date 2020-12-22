@@ -34,7 +34,6 @@ def part1():
             winner_stack = p2_stack
         #print(p1_stack)
         #print(p2_stack)
-
     return sum(f * v for f, v in zip(range(len(winner_stack), 0, -1), winner_stack))
 
 def part2():
