@@ -12,7 +12,7 @@ struct Cup {
 inline void print_cups(const Cup* c_start) {
   const auto* c_current = c_start;
   do {
-    std::cout << c_current->label + 1 << " "; // TODOPrint as if it was 1 based.
+    std::cout << c_current->label + 1 << " ";
     c_current = c_current->next;
   } while (c_current != c_start);
   std::cout << "\n";
