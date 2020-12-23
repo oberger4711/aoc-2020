@@ -1,6 +1,5 @@
 #include <cstdlib>
 #include <iostream>
-#include <string>
 #include <vector>
 
 // This is some kind of cyclic linked list data structure.
