@@ -22,7 +22,7 @@ def part1():
     enc_key_a = transform(pk_b, secret_a)
     enc_key_b = transform(pk_a, secret_b)
     if enc_key_a != enc_key_b:
-        print("Somethings wrong.")
+        print("Something is wrong.")
         return None
     return enc_key_a
 
